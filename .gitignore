@@ -1,0 +1,13 @@
+# Jupyter autosave copies
+.ipynb_checkpoints/
+# Python cache files
+__pycache__/
+*.pyc
+# Temporary files created by Word and Excel while a file is open
+~$*
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+# Draft report, not published
+Report/

@@ -1,0 +1,74 @@
+DATA SOURCES
+Replication of Diebold and Li (2006), "Forecasting the term structure of
+government bond yields", using South African government bond data.
+Module: DDM8X01 Debt Market Modelling, Empirical Replication Project
+Data downloaded: 27 September 2026
+
+All raw files in this folder are stored exactly as downloaded. All cleaning,
+date alignment, frequency conversion and sample selection is done in the
+Python code (see the Code folder).
+
+======================================================================
+FILE 1: SARB_govt_bond_yields_monthly.xlsx
+======================================================================
+Source:      South African Reserve Bank (SARB), Online Statistical Query
+             (Quarterly Bulletin historical time series)
+URL:         https://www.resbank.co.za/en/home/what-we-do/statistics/releases/online-statistical-query
+Method:      Manual download, Excel format, original file name
+             "TSReport-2026-9-27-16-1-11.xlsx", renamed for clarity
+Frequency:   Monthly (monthly average of daily yields)
+Unit:        Percentage per annum
+Range downloaded: January 1990 to May 2026 (latest available)
+Missing values:   Recorded by SARB as "undefined"
+
+Series:
+Code      SARB description (as supplied, truncated by SARB)                 Maturity band        Available from
+KBP2000M  Yield on bonds traded on the stock exchange: Government bonds -   0 to 3 years         1960/01
+          Nominal yield
+KBP2001M  Yield on loan stock traded on the stock exchange: Government      3 to 5 years         1985/01
+          bonds - 3 to 5 years
+KBP2002M  Yield on bonds traded on the stock exchange: Government bonds -   5 to 10 years        1986/05
+          Nominal yield
+KBP2003M  Yield on bonds traded on the stock exchange: Government bonds -   10 years and over    1960/01
+          Nominal yield
+KBP2049M  Yield on bonds traded on the stock exchange: Government bonds -   20 to 30 years       2017/01
+          Nominal yield
+
+Note on maturity bands: SARB truncates the descriptions in the download.
+The maturity band of each series was identified from SARB's published series
+definitions, confirmed by matching each series' start date to the SARB
+maturity-band series start dates (KBP2000M 1960/01, KBP2001M 1985/01,
+KBP2002M 1986/05, KBP2003M 1960/01).
+
+Excluded: KBP2027M (real yield, inflation-linked bonds), since the model uses
+nominal yields.
+
+======================================================================
+FILE 2: SARB_treasury_bills_daily.csv
+======================================================================
+Source:      South African Reserve Bank (SARB), web data service
+             (market rates / selected historical rates)
+URL:         https://custom.resbank.co.za/SarbWebApi/WebIndicators/Shared/GetTimeseriesObservations/{code}/{start date}/{end date}
+Method:      Automated download with Code/00_download_tbills.ipynb,
+             one calendar year per request, saved unchanged as CSV
+Frequency:   Daily observations; the rate changes at each weekly
+             Treasury bill auction
+Unit:        Percentage per annum
+SARB definition: "The average rate at which [n] day Treasury Bills are
+             allotted during the weekly Treasury Bill auction"
+
+Series:
+Code      SARB series name                               Observations  First date   Last date
+MMRD203A  Treasury bills - 91 day (tender rates)         10641         1990-01-02   2026-09-23
+MMRD206A  Treasury bills - 182 day (tender rates)        6997          2002-01-02   2026-09-23
+MMRD209A  Treasury bills - 273 day (tender rates)        5472          2007-02-13   2026-09-23
+MMRD212A  Treasury bills - 364 day (tender rates)        4454          2010-06-30   2026-09-23
+
+Columns in the file: Code, Series, Timeseries, Description, Period, Value
+
+======================================================================
+SAMPLE USED IN THE ANALYSIS
+======================================================================
+January 1994 to May 2026 (end date set by the latest available bond yields).
+Data before 1994 is downloaded but excluded in the code, for the reasons
+given in the report.
